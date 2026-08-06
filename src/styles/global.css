@@ -1,0 +1,100 @@
+@import 'tailwindcss';
+
+/* Fuentes autoalojadas (sin peticiones externas a Google Fonts → mejor rendimiento y privacidad) */
+@import '@fontsource-variable/fraunces/standard.css';
+@import '@fontsource-variable/inter';
+
+@theme {
+  /* Paleta de marca extraída del logo de Ninou Marroquineria */
+  --color-cream-50: #fdfbf8;
+  --color-cream-100: #faf6ef;
+  --color-cream-200: #f3ead9;
+
+  --color-brand-50: #fdf3e7;
+  --color-brand-100: #fbe3c4;
+  --color-brand-200: #f6c888;
+  --color-brand-300: #f0ac58;
+  --color-brand-400: #ec9a3a;
+  --color-brand-500: #e8821e;
+  --color-brand-600: #cc6c13;
+  --color-brand-700: #a8560f;
+  --color-brand-800: #7e400c;
+  --color-brand-900: #5c2e09;
+
+  --color-ink-50: #eef0f6;
+  --color-ink-100: #d7dcea;
+  --color-ink-200: #aeb9d4;
+  --color-ink-300: #8695bc;
+  --color-ink-400: #5c6c9c;
+  --color-ink-500: #3b4874;
+  --color-ink-600: #2c3660;
+  --color-ink-700: #1e2749;
+  --color-ink-800: #161c36;
+  --color-ink-900: #0f1225;
+
+  --font-display: 'Fraunces Variable', ui-serif, Georgia, serif;
+  --font-sans: 'Inter Variable', ui-sans-serif, system-ui, sans-serif;
+
+  --animate-fade-up: fade-up 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+
+  @keyframes fade-up {
+    from {
+      opacity: 0;
+      transform: translateY(1.25rem);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    font-family: var(--font-sans);
+  }
+
+  body {
+    background-color: var(--color-cream-50);
+    color: var(--color-ink-800);
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-display);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-brand-600);
+    outline-offset: 3px;
+  }
+}
+
+@layer utilities {
+  /* Animación de aparición al hacer scroll, activada por IntersectionObserver (ver scroll-reveal.ts).
+     Escondida SOLO bajo la clase .js (añadida por un script inline en <head>): si JS falla o está
+     desactivado, el contenido es visible desde el principio en lugar de quedar oculto para siempre. */
+  .js [data-reveal] {
+    opacity: 0;
+    transform: translateY(1.25rem);
+  }
+
+  .js [data-reveal].is-visible {
+    animation: var(--animate-fade-up);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+
+    .js [data-reveal] {
+      opacity: 1;
+      transform: none;
+      animation: none !important;
+    }
+  }
+}

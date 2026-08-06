@@ -1,0 +1,24 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Header from '@/components/layout/Header.astro';
+import Footer from '@/components/layout/Footer.astro';
+import FloatingActions from '@/components/ui/FloatingActions.astro';
+import Hero from '@/components/sections/Hero.astro';
+import { useTranslations, type Lang } from '@/i18n/utils';
+
+export function getStaticPaths() {
+  return [{ params: { lang: 'ca' } }, { params: { lang: 'es' } }];
+}
+
+const { lang } = Astro.params as { lang: Lang };
+const t = useTranslations(lang);
+---
+
+<BaseLayout lang={lang} path="/" title={`${lang === 'ca' ? 'Ninou Marroquineria' : 'Ninou Marroquinería'} — ${t('site.tagline')}`} description={t('site.description')}>
+  <Header lang={lang} />
+  <main id="main">
+    <Hero lang={lang} />
+  </main>
+  <Footer lang={lang} />
+  <FloatingActions lang={lang} />
+</BaseLayout>

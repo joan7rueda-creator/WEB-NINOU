@@ -1,0 +1,110 @@
+---
+import '@/styles/global.css';
+import { SITE } from '@/data/site';
+import { languages, useTranslations, type Lang } from '@/i18n/utils';
+
+interface Props {
+  title: string;
+  description: string;
+  lang: Lang;
+  /** Ruta sin prefijo de idioma, p.ex. "/" o "/gracies/" — se usa para construir hreflang. */
+  path: string;
+  image?: string;
+}
+
+const { title, description, lang, path, image = '/og-image.jpg' } = Astro.props;
+const t = useTranslations(lang);
+
+const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+const ogImageURL = new URL(image, Astro.site);
+
+const alternates = Object.keys(languages) as Lang[];
+
+const dayNameToSchema: Record<string, string> = {
+  monday: 'Monday',
+  tuesday: 'Tuesday',
+  wednesday: 'Wednesday',
+  thursday: 'Thursday',
+  friday: 'Friday',
+  saturday: 'Saturday',
+  sunday: 'Sunday',
+};
+
+const openingHoursSpecification = SITE.hours.flatMap(({ day, ranges }) =>
+  ranges.map(([opens, closes]) => ({
+    '@type': 'OpeningHoursSpecification',
+    dayOfWeek: `https://schema.org/${dayNameToSchema[day]}`,
+    opens,
+    closes,
+  }))
+);
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'ClothingStore',
+  name: SITE.name,
+  description,
+  url: Astro.site?.toString(),
+  telephone: SITE.contact.phone,
+  email: SITE.contact.email,
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: SITE.address.street,
+    postalCode: SITE.address.postalCode,
+    addressLocality: SITE.address.city,
+    addressRegion: SITE.address.region,
+    addressCountry: SITE.address.country,
+  },
+  sameAs: [SITE.social.instagram],
+  openingHoursSpecification,
+};
+---
+
+<!doctype html>
+<html lang={lang}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <meta name="generator" content={Astro.generator} />
+
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonicalURL} />
+
+    {alternates.map((altLang) => (
+      <link
+        rel="alternate"
+        hreflang={altLang}
+        href={new URL(`/${altLang}${path}`, Astro.site)}
+      />
+    ))}
+    <link rel="alternate" hreflang="x-default" href={new URL(`/ca${path}`, Astro.site)} />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={ogImageURL} />
+    <meta property="og:url" content={canonicalURL} />
+    <meta property="og:locale" content={lang === 'ca' ? 'ca_ES' : 'es_ES'} />
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <meta name="theme-color" content="#1e2749" />
+
+    <script is:inline>
+      document.documentElement.classList.add('js');
+    </script>
+
+    <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} is:inline />
+  </head>
+  <body class="bg-cream-50 text-ink-800 antialiased">
+    <a
+      href="#main"
+      class="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[100] focus:rounded-full focus:bg-ink-800 focus:px-5 focus:py-3 focus:text-cream-50"
+    >
+      {t('a11y.skipToContent')}
+    </a>
+    <slot />
+    <script src="@/scripts/scroll-reveal.ts"></script>
+  </body>
+</html>

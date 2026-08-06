@@ -1,0 +1,60 @@
+---
+import { useTranslations, type Lang } from '@/i18n/utils';
+import Button from '@/components/ui/Button.astro';
+import Icon from '@/components/ui/Icon.astro';
+import { SITE } from '@/data/site';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+---
+
+<section class="relative overflow-hidden bg-ink-800 text-cream-50">
+  <div
+    class="pointer-events-none absolute inset-0 opacity-40"
+    style="background:radial-gradient(circle at 20% 20%, theme(colors.brand.700) 0%, transparent 45%), radial-gradient(circle at 85% 75%, theme(colors.brand.900) 0%, transparent 50%);"
+  >
+  </div>
+
+  <div class="relative mx-auto grid max-w-6xl items-center gap-12 px-5 py-24 sm:py-28 lg:grid-cols-2 lg:px-8 lg:py-32">
+    <div data-reveal>
+      <p class="text-sm font-semibold uppercase tracking-[0.2em] text-brand-400">
+        {t('hero.eyebrow')}
+      </p>
+      <h1 class="mt-5 font-display text-5xl font-medium leading-[1.05] tracking-tight sm:text-6xl">
+        {t('hero.title')}
+      </h1>
+      <p class="mt-6 max-w-md text-lg text-cream-100/80">
+        {t('hero.subtitle')}
+      </p>
+
+      <div class="mt-9 flex flex-wrap gap-4">
+        <Button href="#location" variant="primary">
+          {t('hero.cta.primary')}
+          <Icon name="chevron-right" class="h-4 w-4" />
+        </Button>
+        <Button href={`tel:${SITE.contact.phone}`} variant="ghost" class="!border-cream-50/25 !text-cream-50 hover:!border-cream-50/50 hover:!bg-cream-50/10">
+          <Icon name="phone" class="h-4 w-4" />
+          {t('hero.cta.secondary')}
+        </Button>
+      </div>
+    </div>
+
+    <div data-reveal style="animation-delay: 120ms" class="relative">
+      <!--
+        Placeholder visual mientras no tenemos fotografía real de la tienda/producto.
+        Sustituir por <Image src={import('@/assets/hero.jpg')} alt="…" /> en cuanto
+        recibamos las fotos (ver optimización automática de astro:assets).
+      -->
+      <div class="aspect-[4/5] w-full rounded-[2rem] border border-cream-50/10 bg-gradient-to-br from-brand-600 via-brand-700 to-ink-900 shadow-2xl shadow-ink-900/40">
+        <div class="flex h-full flex-col items-center justify-center gap-4 text-center">
+          <span class="font-display text-3xl font-medium text-cream-50">Ninou</span>
+          <span class="text-xs uppercase tracking-[0.3em] text-cream-50/70">Marroquineria</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

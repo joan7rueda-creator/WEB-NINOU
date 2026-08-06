@@ -1,0 +1,31 @@
+---
+import { languages, getLocalizedAlternate, useTranslations, type Lang } from '@/i18n/utils';
+
+interface Props {
+  lang: Lang;
+  class?: string;
+}
+
+const { lang, class: className = '' } = Astro.props;
+const t = useTranslations(lang);
+const langs = Object.entries(languages) as [Lang, string][];
+---
+
+<nav aria-label={t('a11y.languageSwitcher')} class={`flex items-center gap-1 text-sm font-medium ${className}`}>
+  {langs.map(([code, label], i) => (
+    <>
+      {i > 0 && <span class="text-ink-800/30" aria-hidden="true">/</span>}
+      <a
+        href={getLocalizedAlternate(Astro.url, code)}
+        aria-current={code === lang ? 'true' : undefined}
+        class:list={[
+          'rounded-full px-2 py-1 transition-colors',
+          code === lang ? 'text-brand-600' : 'text-ink-800/60 hover:text-ink-800',
+        ]}
+      >
+        {code.toUpperCase()}
+        <span class="sr-only"> {label}</span>
+      </a>
+    </>
+  ))}
+</nav>

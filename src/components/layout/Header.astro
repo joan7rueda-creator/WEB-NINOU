@@ -1,0 +1,77 @@
+---
+import { useTranslations, useTranslatedPath, type Lang } from '@/i18n/utils';
+import LanguageSwitcher from '@/components/ui/LanguageSwitcher.astro';
+import Icon from '@/components/ui/Icon.astro';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+const home = useTranslatedPath(lang)('/');
+
+const links: { href: string; label: string }[] = [
+  { href: '#about', label: t('nav.about') },
+  { href: '#products', label: t('nav.products') },
+  { href: '#gallery', label: t('nav.gallery') },
+  { href: '#reviews', label: t('nav.reviews') },
+  { href: '#store-info', label: t('nav.storeInfo') },
+  { href: '#location', label: t('nav.location') },
+  { href: '#contact', label: t('nav.contact') },
+];
+---
+
+<header class="sticky top-0 z-40 border-b border-ink-800/10 bg-cream-50/90 backdrop-blur-md">
+  <div class="mx-auto flex max-w-6xl items-center justify-between px-5 py-4 lg:px-8">
+    <a href={home} class="font-display text-xl font-semibold tracking-tight text-ink-800">
+      Ninou <span class="text-brand-600">Marroquineria</span>
+    </a>
+
+    <nav aria-label="Principal" class="hidden lg:flex lg:items-center lg:gap-8">
+      {links.map((link) => (
+        <a
+          href={link.href}
+          class="text-sm font-medium text-ink-800/80 transition-colors hover:text-brand-600"
+        >
+          {link.label}
+        </a>
+      ))}
+    </nav>
+
+    <div class="hidden lg:block">
+      <LanguageSwitcher lang={lang} />
+    </div>
+
+    <details class="group relative lg:hidden">
+      <summary
+        class="flex cursor-pointer list-none items-center justify-center rounded-full p-2 text-ink-800 [&::-webkit-details-marker]:hidden"
+        aria-label={t('a11y.openMenu')}
+      >
+        <Icon name="menu" class="h-6 w-6 group-open:hidden" />
+        <Icon name="close" class="hidden h-6 w-6 group-open:block" />
+      </summary>
+
+      <nav
+        aria-label="Principal"
+        class="absolute right-0 top-full mt-3 w-64 rounded-2xl border border-ink-800/10 bg-cream-50 p-5 shadow-xl shadow-ink-900/10"
+      >
+        <ul class="flex flex-col gap-1">
+          {links.map((link) => (
+            <li>
+              <a
+                href={link.href}
+                class="block rounded-lg px-3 py-2.5 text-sm font-medium text-ink-800 hover:bg-brand-50"
+              >
+                {link.label}
+              </a>
+            </li>
+          ))}
+        </ul>
+        <div class="mt-4 border-t border-ink-800/10 pt-4">
+          <LanguageSwitcher lang={lang} />
+        </div>
+      </nav>
+    </details>
+  </div>
+</header>
