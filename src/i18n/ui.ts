@@ -34,9 +34,7 @@ export const ui = {
 
     'nav.home': 'Inici',
     'nav.about': 'Qui som',
-    'nav.products': 'Productes',
     'nav.gallery': 'Galeria',
-    'nav.reviews': 'Opinions',
     'nav.storeInfo': 'La botiga',
     'nav.location': 'On som',
     'nav.contact': 'Contacte',
@@ -64,16 +62,8 @@ export const ui = {
     'about.stat3.value': '35',
     'about.stat3.label': 'anys amb la Teresa al capdavant',
 
-    'products.eyebrow': 'Què hi trobaràs',
-    'products.title': 'Productes i serveis',
-    'products.subtitle':
-      'Peces seleccionades amb criteri, pensades per durar-te molts anys.',
-
     'gallery.eyebrow': 'Un cop d’ull',
     'gallery.title': 'Galeria',
-
-    'reviews.eyebrow': 'La nostra clientela',
-    'reviews.title': 'Opinions',
 
     'storeInfo.eyebrow': 'Informació',
     'storeInfo.title': 'La botiga',
@@ -123,9 +113,7 @@ export const ui = {
 
     'nav.home': 'Inicio',
     'nav.about': 'Quiénes somos',
-    'nav.products': 'Productos',
     'nav.gallery': 'Galería',
-    'nav.reviews': 'Opiniones',
     'nav.storeInfo': 'La tienda',
     'nav.location': 'Cómo llegar',
     'nav.contact': 'Contacto',
@@ -153,16 +141,8 @@ export const ui = {
     'about.stat3.value': '35',
     'about.stat3.label': 'años con Teresa al frente',
 
-    'products.eyebrow': 'Qué encontrarás',
-    'products.title': 'Productos y servicios',
-    'products.subtitle':
-      'Piezas seleccionadas con criterio, pensadas para durarte muchos años.',
-
     'gallery.eyebrow': 'Un vistazo',
     'gallery.title': 'Galería',
-
-    'reviews.eyebrow': 'Nuestros clientes',
-    'reviews.title': 'Opiniones',
 
     'storeInfo.eyebrow': 'Información',
     'storeInfo.title': 'La tienda',
