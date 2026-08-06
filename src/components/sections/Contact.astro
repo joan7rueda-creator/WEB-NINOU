@@ -1,0 +1,131 @@
+---
+import { SITE } from '@/data/site';
+import { useTranslations, type Lang } from '@/i18n/utils';
+import Button from '@/components/ui/Button.astro';
+import Icon from '@/components/ui/Icon.astro';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+
+const inputClasses =
+  'w-full rounded-xl border border-ink-800/15 bg-cream-50 px-4 py-3 text-ink-800 placeholder:text-ink-800/40 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/30';
+---
+
+<section id="contact" class="bg-cream-50">
+  <div class="mx-auto grid max-w-6xl gap-14 px-5 py-24 lg:grid-cols-2 lg:gap-20 lg:px-8">
+    <div data-reveal>
+      <p class="text-sm font-semibold uppercase tracking-[0.2em] text-brand-600">
+        {t('contact.eyebrow')}
+      </p>
+      <h2 class="mt-4 font-display text-4xl font-medium text-ink-800 sm:text-5xl">
+        {t('contact.title')}
+      </h2>
+      <p class="mt-4 max-w-md text-lg text-ink-800/70">{t('contact.subtitle')}</p>
+
+      <div class="mt-9 flex flex-col gap-4">
+        <a href={`tel:${SITE.contact.phone}`} class="inline-flex items-center gap-3 text-ink-800 hover:text-brand-600">
+          <Icon name="phone" class="h-5 w-5 text-brand-600" />
+          {SITE.contact.phoneDisplay}
+        </a>
+        <a href={`mailto:${SITE.contact.email}`} class="inline-flex items-center gap-3 text-ink-800 hover:text-brand-600">
+          <Icon name="mail" class="h-5 w-5 text-brand-600" />
+          {SITE.contact.email}
+        </a>
+      </div>
+    </div>
+
+    <div data-reveal style="animation-delay: 120ms">
+      <form
+        id="contact-form"
+        action="https://api.web3forms.com/submit"
+        method="POST"
+        class="space-y-5"
+      >
+        <input type="hidden" name="access_key" value={SITE.web3FormsAccessKey} />
+        <input type="hidden" name="subject" value={`Nou missatge des de la web — ${SITE.name}`} />
+        <input type="checkbox" name="botcheck" class="hidden" style="display:none" tabindex="-1" autocomplete="off" />
+
+        <div>
+          <label for="name" class="mb-1.5 block text-sm font-medium text-ink-800">{t('contact.form.name')}</label>
+          <input id="name" name="name" type="text" required class={inputClasses} />
+        </div>
+
+        <div>
+          <label for="email" class="mb-1.5 block text-sm font-medium text-ink-800">{t('contact.form.email')}</label>
+          <input id="email" name="email" type="email" required class={inputClasses} />
+        </div>
+
+        <div>
+          <label for="phone" class="mb-1.5 block text-sm font-medium text-ink-800">{t('contact.form.phone')}</label>
+          <input id="phone" name="phone" type="tel" class={inputClasses} />
+        </div>
+
+        <div>
+          <label for="message" class="mb-1.5 block text-sm font-medium text-ink-800">{t('contact.form.message')}</label>
+          <textarea id="message" name="message" rows="4" required class={inputClasses}></textarea>
+        </div>
+
+        <Button type="submit" variant="primary" class="w-full">
+          <span data-label={t('contact.form.submit')} data-sending={t('contact.form.sending')}>
+            {t('contact.form.submit')}
+          </span>
+        </Button>
+
+        <p
+          id="contact-form-status"
+          role="status"
+          aria-live="polite"
+          data-success={t('contact.form.success')}
+          data-error={t('contact.form.error')}
+          class="hidden text-sm"
+        >
+        </p>
+      </form>
+    </div>
+  </div>
+</section>
+
+<script>
+  const form = document.getElementById('contact-form') as HTMLFormElement | null;
+  const status = document.getElementById('contact-form-status');
+  const submitLabel = form?.querySelector<HTMLSpanElement>('[data-label]');
+
+  form?.addEventListener('submit', async (event) => {
+    event.preventDefault();
+    if (!status || !submitLabel) return;
+
+    const submitButton = form.querySelector<HTMLButtonElement>('button[type="submit"]');
+    submitButton?.setAttribute('disabled', 'true');
+    submitLabel.textContent = submitLabel.dataset.sending ?? '';
+
+    try {
+      const response = await fetch(form.action, {
+        method: 'POST',
+        body: new FormData(form),
+        headers: { Accept: 'application/json' },
+      });
+      const result = await response.json();
+
+      status.classList.remove('hidden', 'text-red-600', 'text-emerald-700');
+      if (result.success) {
+        status.textContent = status.dataset.success ?? '';
+        status.classList.add('text-emerald-700');
+        form.reset();
+      } else {
+        status.textContent = status.dataset.error ?? '';
+        status.classList.add('text-red-600');
+      }
+    } catch {
+      status.classList.remove('hidden');
+      status.textContent = status.dataset.error ?? '';
+      status.classList.add('text-red-600');
+    } finally {
+      submitLabel.textContent = submitLabel.dataset.label ?? '';
+      submitButton?.removeAttribute('disabled');
+    }
+  });
+</script>

@@ -1,0 +1,135 @@
+---
+import { SITE } from '@/data/site';
+import { useTranslations, getDayLabel, type Lang } from '@/i18n/utils';
+import Icon from '@/components/ui/Icon.astro';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+---
+
+<section id="store-info" class="bg-ink-800 text-cream-50">
+  <div class="mx-auto grid max-w-6xl gap-14 px-5 py-24 lg:grid-cols-2 lg:gap-20 lg:px-8">
+    <div data-reveal>
+      <p class="text-sm font-semibold uppercase tracking-[0.2em] text-brand-400">
+        {t('storeInfo.eyebrow')}
+      </p>
+      <h2 class="mt-4 font-display text-4xl font-medium text-cream-50 sm:text-5xl">
+        {t('storeInfo.title')}
+      </h2>
+
+      <ul class="mt-9 space-y-6">
+        <li class="flex items-start gap-4">
+          <span class="mt-0.5 flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-cream-50/10 text-brand-400">
+            <Icon name="map-pin" class="h-5 w-5" />
+          </span>
+          <div>
+            <p class="text-sm text-cream-100/60">{t('storeInfo.address')}</p>
+            <p class="text-lg">{SITE.address.street}, {SITE.address.postalCode} {SITE.address.city}</p>
+          </div>
+        </li>
+        <li class="flex items-start gap-4">
+          <span class="mt-0.5 flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-cream-50/10 text-brand-400">
+            <Icon name="phone" class="h-5 w-5" />
+          </span>
+          <div>
+            <p class="text-sm text-cream-100/60">{t('storeInfo.phone')}</p>
+            <a href={`tel:${SITE.contact.phone}`} class="text-lg hover:text-brand-400">{SITE.contact.phoneDisplay}</a>
+          </div>
+        </li>
+        <li class="flex items-start gap-4">
+          <span class="mt-0.5 flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-cream-50/10 text-brand-400">
+            <Icon name="mail" class="h-5 w-5" />
+          </span>
+          <div>
+            <p class="text-sm text-cream-100/60">{t('storeInfo.email')}</p>
+            <a href={`mailto:${SITE.contact.email}`} class="text-lg hover:text-brand-400 break-all">{SITE.contact.email}</a>
+          </div>
+        </li>
+        <li class="flex items-start gap-4">
+          <span class="mt-0.5 flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-cream-50/10 text-brand-400">
+            <Icon name="instagram" class="h-5 w-5" />
+          </span>
+          <div>
+            <p class="text-sm text-cream-100/60">{t('storeInfo.social')}</p>
+            <a href={SITE.social.instagram} target="_blank" rel="noopener noreferrer me" class="text-lg hover:text-brand-400">
+              {SITE.social.instagramHandle}
+            </a>
+          </div>
+        </li>
+      </ul>
+    </div>
+
+    <div data-reveal style="animation-delay: 120ms">
+      <div class="flex items-center gap-3">
+        <span class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-cream-50/10 text-brand-400">
+          <Icon name="clock" class="h-5 w-5" />
+        </span>
+        <h3 class="font-display text-2xl font-medium">{t('hours.title')}</h3>
+      </div>
+
+      <ul
+        id="hours-list"
+        data-open-label={t('hours.openNow')}
+        data-closed-label={t('hours.closedNow')}
+        class="mt-7 divide-y divide-cream-50/10 overflow-hidden rounded-2xl border border-cream-50/10"
+      >
+        {SITE.hours.map(({ day, ranges }) => (
+          <li data-day={day} class="flex items-center justify-between gap-4 px-5 py-4">
+            <span class="font-medium">{getDayLabel(lang, day)}</span>
+            {ranges.length > 0 ? (
+              <span class="text-right text-sm text-cream-100/80">
+                {ranges.map((r) => r.join(' – ')).join(' · ')}
+              </span>
+            ) : (
+              <span class="text-sm text-cream-100/40">{t('hours.closed')}</span>
+            )}
+          </li>
+        ))}
+      </ul>
+    </div>
+  </div>
+</section>
+
+<script>
+  // Resalta el día actual y muestra si la botiga está abierta ahora mismo.
+  // Mejora progresiva: sin JS, la tabla de horario semanal sigue siendo perfectamente legible.
+  const DAY_KEYS = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
+
+  function toMinutes(hhmm: string): number {
+    const [h, m] = hhmm.split(':').map(Number);
+    return h * 60 + m;
+  }
+
+  const list = document.getElementById('hours-list');
+  if (list) {
+    const todayKey = DAY_KEYS[new Date().getDay()];
+    const todayRow = list.querySelector<HTMLLIElement>(`[data-day="${todayKey}"]`);
+
+    if (todayRow) {
+      todayRow.classList.add('bg-brand-500/10');
+
+      const rangesText = todayRow.querySelector('span:last-child')?.textContent ?? '';
+      const nowMinutes = new Date().getHours() * 60 + new Date().getMinutes();
+      const isOpen = rangesText
+        .split('·')
+        .map((r) => r.trim())
+        .filter(Boolean)
+        .some((range) => {
+          const [start, end] = range.split('–').map((s) => s.trim());
+          if (!start || !end) return false;
+          return nowMinutes >= toMinutes(start) && nowMinutes <= toMinutes(end);
+        });
+
+      const badge = document.createElement('span');
+      badge.className = isOpen
+        ? 'ml-3 shrink-0 rounded-full bg-emerald-500/20 px-2.5 py-1 text-xs font-semibold text-emerald-400'
+        : 'ml-3 shrink-0 rounded-full bg-cream-50/10 px-2.5 py-1 text-xs font-semibold text-cream-100/60';
+      badge.textContent = isOpen ? list.dataset.openLabel ?? '' : list.dataset.closedLabel ?? '';
+      todayRow.querySelector('span:first-child')?.appendChild(badge);
+    }
+  }
+</script>

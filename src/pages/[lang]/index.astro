@@ -5,6 +5,9 @@ import Footer from '@/components/layout/Footer.astro';
 import FloatingActions from '@/components/ui/FloatingActions.astro';
 import Hero from '@/components/sections/Hero.astro';
 import About from '@/components/sections/About.astro';
+import StoreInfo from '@/components/sections/StoreInfo.astro';
+import Location from '@/components/sections/Location.astro';
+import Contact from '@/components/sections/Contact.astro';
 import { useTranslations, type Lang } from '@/i18n/utils';
 
 export function getStaticPaths() {
@@ -20,6 +23,9 @@ const t = useTranslations(lang);
   <main id="main">
     <Hero lang={lang} />
     <About lang={lang} />
+    <StoreInfo lang={lang} />
+    <Location lang={lang} />
+    <Contact lang={lang} />
   </main>
   <Footer lang={lang} />
   <FloatingActions lang={lang} />

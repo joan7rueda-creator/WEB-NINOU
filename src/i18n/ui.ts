@@ -84,6 +84,8 @@ export const ui = {
 
     'hours.title': 'Horari',
     'hours.closed': 'Tancat',
+    'hours.openNow': 'Obert ara',
+    'hours.closedNow': 'Tancat ara',
 
     'location.eyebrow': 'On som',
     'location.title': 'Ubicació',
@@ -171,6 +173,8 @@ export const ui = {
 
     'hours.title': 'Horario',
     'hours.closed': 'Cerrado',
+    'hours.openNow': 'Abierto ahora',
+    'hours.closedNow': 'Cerrado ahora',
 
     'location.eyebrow': 'Cómo llegar',
     'location.title': 'Ubicación',

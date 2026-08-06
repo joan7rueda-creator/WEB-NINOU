@@ -47,6 +47,10 @@ export const SITE = {
   whatsappUrl(message: string) {
     return `https://wa.me/${this.contact.whatsapp.replace('+', '')}?text=${encodeURIComponent(message)}`;
   },
+
+  // TODO: crear una clave gratuita en https://web3forms.com con el correo
+  // ninou.marroquineria@gmail.com y pegarla aquí para activar el formulario de contacto.
+  web3FormsAccessKey: '',
 } as const;
 
 export type WeekDay = (typeof SITE.hours)[number]['day'];
