@@ -34,9 +34,9 @@ export const ui = {
 
     'nav.home': 'Inici',
     'nav.about': 'Qui som',
+    'nav.products': 'Productes',
     'nav.gallery': 'Galeria',
     'nav.storeInfo': 'La botiga',
-    'nav.location': 'On som',
     'nav.contact': 'Contacte',
 
     'hero.eyebrow': 'Des de 1893 a Sant Celoni',
@@ -62,6 +62,19 @@ export const ui = {
     'about.stat3.value': '35',
     'about.stat3.label': 'anys amb la Teresa al capdavant',
 
+    'products.eyebrow': 'Què hi trobaràs',
+    'products.title': 'Productes',
+    'products.subtitle': 'Peces seleccionades amb criteri, pensades per durar-te molts anys.',
+    'products.cta': 'Vine a descobrir-ho a la botiga',
+    'products.cat.bags': 'Bosses',
+    'products.cat.bags.desc': 'Bosses de pell i marroquineria triades per la seva qualitat i disseny atemporal.',
+    'products.cat.complements': 'Complements',
+    'products.cat.complements.desc': 'Cinturons, carteres, moneders i altres detalls que marquen la diferència.',
+    'products.cat.clothing': 'Roba',
+    'products.cat.clothing.desc': 'Peces de vestir triades amb el mateix criteri de sempre: qualitat i bon gust.',
+    'products.cat.footwear': 'Calçat',
+    'products.cat.footwear.desc': 'Calçat còmode i elegant per a qualsevol ocasió.',
+
     'gallery.eyebrow': 'Un cop d’ull',
     'gallery.title': 'Galeria',
 
@@ -77,8 +90,6 @@ export const ui = {
     'hours.openNow': 'Obert ara',
     'hours.closedNow': 'Tancat ara',
 
-    'location.eyebrow': 'On som',
-    'location.title': 'Ubicació',
     'location.cta': 'Com arribar-hi',
 
     'contact.eyebrow': 'Contacte',
@@ -113,9 +124,9 @@ export const ui = {
 
     'nav.home': 'Inicio',
     'nav.about': 'Quiénes somos',
+    'nav.products': 'Productos',
     'nav.gallery': 'Galería',
     'nav.storeInfo': 'La tienda',
-    'nav.location': 'Cómo llegar',
     'nav.contact': 'Contacto',
 
     'hero.eyebrow': 'Desde 1893 en Sant Celoni',
@@ -141,6 +152,19 @@ export const ui = {
     'about.stat3.value': '35',
     'about.stat3.label': 'años con Teresa al frente',
 
+    'products.eyebrow': 'Qué encontrarás',
+    'products.title': 'Productos',
+    'products.subtitle': 'Piezas seleccionadas con criterio, pensadas para durarte muchos años.',
+    'products.cta': 'Ven a descubrirlo a la tienda',
+    'products.cat.bags': 'Bolsos',
+    'products.cat.bags.desc': 'Bolsos de piel y marroquinería elegidos por su calidad y diseño atemporal.',
+    'products.cat.complements': 'Complementos',
+    'products.cat.complements.desc': 'Cinturones, carteras, monederos y otros detalles que marcan la diferencia.',
+    'products.cat.clothing': 'Ropa',
+    'products.cat.clothing.desc': 'Prendas elegidas con el mismo criterio de siempre: calidad y buen gusto.',
+    'products.cat.footwear': 'Calzado',
+    'products.cat.footwear.desc': 'Calzado cómodo y elegante para cualquier ocasión.',
+
     'gallery.eyebrow': 'Un vistazo',
     'gallery.title': 'Galería',
 
@@ -156,8 +180,6 @@ export const ui = {
     'hours.openNow': 'Abierto ahora',
     'hours.closedNow': 'Cerrado ahora',
 
-    'location.eyebrow': 'Cómo llegar',
-    'location.title': 'Ubicación',
     'location.cta': 'Cómo llegar',
 
     'contact.eyebrow': 'Contacto',

@@ -2,6 +2,7 @@
 import { SITE } from '@/data/site';
 import { useTranslations, getDayLabel, type Lang } from '@/i18n/utils';
 import Icon from '@/components/ui/Icon.astro';
+import Button from '@/components/ui/Button.astro';
 
 interface Props {
   lang: Lang;
@@ -12,7 +13,8 @@ const t = useTranslations(lang);
 ---
 
 <section id="store-info" class="bg-ink-800 text-cream-50">
-  <div class="mx-auto grid max-w-6xl gap-14 px-5 py-24 lg:grid-cols-2 lg:gap-20 lg:px-8">
+  <div class="mx-auto max-w-6xl px-5 py-24 lg:px-8">
+  <div class="grid gap-14 lg:grid-cols-2 lg:gap-20">
     <div data-reveal>
       <p class="text-sm font-semibold uppercase tracking-[0.2em] text-brand-400">
         {t('storeInfo.eyebrow')}
@@ -91,6 +93,21 @@ const t = useTranslations(lang);
         ))}
       </ul>
     </div>
+  </div>
+
+  <div data-reveal style="animation-delay: 200ms" class="mt-14 overflow-hidden rounded-3xl border border-cream-50/10">
+    <iframe
+      src={SITE.maps.embedUrl}
+      title={`Mapa: ${SITE.name}`}
+      loading="lazy"
+      referrerpolicy="no-referrer-when-downgrade"
+      class="h-[360px] w-full"
+    ></iframe>
+  </div>
+  <Button href={SITE.maps.directionsUrl} target="_blank" rel="noopener noreferrer" variant="primary" class="mt-6">
+    {t('location.cta')}
+    <Icon name="chevron-right" class="h-4 w-4" />
+  </Button>
   </div>
 </section>
 

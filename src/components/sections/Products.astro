@@ -1,0 +1,54 @@
+---
+import { useTranslations, type UIKey, type Lang } from '@/i18n/utils';
+import Button from '@/components/ui/Button.astro';
+import Icon from '@/components/ui/Icon.astro';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+
+const categories: { nameKey: UIKey; descKey: UIKey; gradient: string }[] = [
+  { nameKey: 'products.cat.bags', descKey: 'products.cat.bags.desc', gradient: 'from-brand-600 via-brand-700 to-ink-900' },
+  { nameKey: 'products.cat.complements', descKey: 'products.cat.complements.desc', gradient: 'from-ink-700 via-ink-800 to-ink-900' },
+  { nameKey: 'products.cat.clothing', descKey: 'products.cat.clothing.desc', gradient: 'from-ink-600 via-ink-800 to-brand-900' },
+  { nameKey: 'products.cat.footwear', descKey: 'products.cat.footwear.desc', gradient: 'from-brand-700 via-ink-800 to-ink-900' },
+];
+---
+
+<section id="products" class="bg-cream-50">
+  <div class="mx-auto max-w-6xl px-5 py-24 lg:px-8">
+    <div data-reveal class="max-w-2xl">
+      <p class="text-sm font-semibold uppercase tracking-[0.2em] text-brand-600">
+        {t('products.eyebrow')}
+      </p>
+      <h2 class="mt-4 font-display text-4xl font-medium text-ink-800 sm:text-5xl">
+        {t('products.title')}
+      </h2>
+      <p class="mt-4 text-lg text-ink-800/70">{t('products.subtitle')}</p>
+    </div>
+
+    <div class="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+      {categories.map((cat, i) => (
+        <div data-reveal style={`animation-delay: ${i * 90}ms`}>
+          <!--
+            Marcador de posición mientras no tenemos fotografía real de cada categoría.
+            Sustituir por <Image src={...} alt="…" /> en cuanto lleguen las fotos.
+          -->
+          <div class={`aspect-[4/5] rounded-2xl bg-gradient-to-br ${cat.gradient} shadow-sm`}></div>
+          <h3 class="mt-4 font-display text-xl font-medium text-ink-800">{t(cat.nameKey)}</h3>
+          <p class="mt-1 text-sm text-ink-800/65">{t(cat.descKey)}</p>
+        </div>
+      ))}
+    </div>
+
+    <div data-reveal class="mt-14">
+      <Button href="#store-info" variant="primary">
+        {t('products.cta')}
+        <Icon name="chevron-right" class="h-4 w-4" />
+      </Button>
+    </div>
+  </div>
+</section>
