@@ -1,7 +1,9 @@
 ---
+import { Image } from 'astro:assets';
 import { useTranslations, useTranslatedPath, type Lang } from '@/i18n/utils';
 import LanguageSwitcher from '@/components/ui/LanguageSwitcher.astro';
 import Icon from '@/components/ui/Icon.astro';
+import icon from '@/assets/brand/ninou-icon-navy.png';
 
 interface Props {
   lang: Lang;
@@ -21,8 +23,11 @@ const links: { href: string; label: string }[] = [
 
 <header class="sticky top-0 z-40 border-b border-ink-800/10 bg-cream-50/90 backdrop-blur-md">
   <div class="mx-auto flex max-w-6xl items-center justify-between px-5 py-4 lg:px-8">
-    <a href={home} class="font-display text-xl font-semibold tracking-tight text-ink-800">
-      Ninou <span class="text-brand-600">Marroquineria</span>
+    <a href={home} class="flex shrink-0 items-center gap-2.5">
+      <Image src={icon} alt="" class="h-9 w-auto" widths={[36, 54, 72]} sizes="36px" />
+      <span class="font-display text-xl font-semibold tracking-tight text-ink-800">
+        Ninou <span class="text-brand-600">Marroquineria</span>
+      </span>
     </a>
 
     <nav aria-label="Principal" class="hidden lg:flex lg:items-center lg:gap-8">

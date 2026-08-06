@@ -77,6 +77,12 @@ export const ui = {
 
     'gallery.eyebrow': 'Un cop d’ull',
     'gallery.title': 'Galeria',
+    'gallery.alt.1': 'Bossa daurada perforada, model exhibit a la botiga Ninou',
+    'gallery.alt.2': 'Bossa de palla amb detall daurat i nansa de bambú',
+    'gallery.alt.3': 'Bossa de tela amb estampat floral brodat',
+    'gallery.alt.4': 'Bossa bandolera blanca i marró de la marca Martina K',
+    'gallery.alt.5': 'Bossa de ràfia negra i blanca Rive Gauche Paris',
+    'gallery.alt.6': 'Bossa de palla amb panell blau Cacharel',
 
     'storeInfo.eyebrow': 'Informació',
     'storeInfo.title': 'La botiga',
@@ -167,6 +173,12 @@ export const ui = {
 
     'gallery.eyebrow': 'Un vistazo',
     'gallery.title': 'Galería',
+    'gallery.alt.1': 'Bolso dorado perforado, modelo expuesto en la tienda Ninou',
+    'gallery.alt.2': 'Bolso de paja con detalle dorado y asa de bambú',
+    'gallery.alt.3': 'Bolso de tela con estampado floral bordado',
+    'gallery.alt.4': 'Bolso bandolera blanco y marrón de la marca Martina K',
+    'gallery.alt.5': 'Bolso de rafia negro y blanco Rive Gauche Paris',
+    'gallery.alt.6': 'Bolso de paja con panel azul Cacharel',
 
     'storeInfo.eyebrow': 'Información',
     'storeInfo.title': 'La tienda',
