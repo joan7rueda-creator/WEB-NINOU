@@ -1,7 +1,7 @@
 ---
 import '@/styles/global.css';
 import { SITE } from '@/data/site';
-import { languages, useTranslations, type Lang } from '@/i18n/utils';
+import { languages, useTranslations, withBase, type Lang } from '@/i18n/utils';
 
 interface Props {
   title: string;
@@ -12,11 +12,11 @@ interface Props {
   image?: string;
 }
 
-const { title, description, lang, path, image = '/og-image.jpg' } = Astro.props;
+const { title, description, lang, path, image } = Astro.props;
 const t = useTranslations(lang);
 
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
-const ogImageURL = new URL(image, Astro.site);
+const ogImageURL = new URL(image ?? withBase('og-image.jpg'), Astro.site);
 
 const alternates = Object.keys(languages) as Lang[];
 
@@ -65,7 +65,7 @@ const jsonLd = {
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="icon" href={withBase('favicon.svg')} type="image/svg+xml" />
     <meta name="generator" content={Astro.generator} />
 
     <title>{title}</title>
@@ -76,10 +76,10 @@ const jsonLd = {
       <link
         rel="alternate"
         hreflang={altLang}
-        href={new URL(`/${altLang}${path}`, Astro.site)}
+        href={new URL(withBase(`${altLang}${path}`), Astro.site)}
       />
     ))}
-    <link rel="alternate" hreflang="x-default" href={new URL(`/ca${path}`, Astro.site)} />
+    <link rel="alternate" hreflang="x-default" href={new URL(withBase(`ca${path}`), Astro.site)} />
 
     <meta property="og:type" content="website" />
     <meta property="og:title" content={title} />
