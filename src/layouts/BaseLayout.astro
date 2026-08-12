@@ -7,18 +7,28 @@ interface Props {
   title: string;
   description: string;
   lang: Lang;
-  /** Ruta sin prefijo de idioma, p.ex. "/" o "/gracies/" — se usa para construir hreflang. */
+  /** Ruta sin prefijo de idioma, p.ex. "/" o "/gracies/" — se usa para construir hreflang
+   * cuando la ruta es igual en todos los idiomas. */
   path: string;
+  /** Para páginas cuya URL cambia por idioma (p.ex. slugs de categoría traducidos):
+   * ruta completa con prefijo de idioma incluido para cada idioma, p.ex.
+   * { ca: "ca/productes/bosses/", es: "es/productos/bolsos/" }. Tiene prioridad sobre `path`. */
+  alternates?: Partial<Record<Lang, string>>;
   image?: string;
 }
 
-const { title, description, lang, path, image } = Astro.props;
+const { title, description, lang, path, alternates: alternatePaths, image } = Astro.props;
 const t = useTranslations(lang);
 
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 const ogImageURL = new URL(image ?? withBase('og-image.jpg'), Astro.site);
 
 const alternates = Object.keys(languages) as Lang[];
+
+function alternateHref(altLang: Lang): string {
+  const custom = alternatePaths?.[altLang];
+  return custom ? withBase(custom) : withBase(`${altLang}${path}`);
+}
 
 const dayNameToSchema: Record<string, string> = {
   monday: 'Monday',
@@ -78,10 +88,10 @@ const jsonLd = {
       <link
         rel="alternate"
         hreflang={altLang}
-        href={new URL(withBase(`${altLang}${path}`), Astro.site)}
+        href={new URL(alternateHref(altLang), Astro.site)}
       />
     ))}
-    <link rel="alternate" hreflang="x-default" href={new URL(withBase(`ca${path}`), Astro.site)} />
+    <link rel="alternate" hreflang="x-default" href={new URL(alternateHref('ca'), Astro.site)} />
 
     <meta property="og:type" content="website" />
     <meta property="og:title" content={title} />

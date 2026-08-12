@@ -1,5 +1,6 @@
 ---
-import { useTranslations, type UIKey, type Lang } from '@/i18n/utils';
+import { useTranslations, type Lang } from '@/i18n/utils';
+import { PRODUCT_CATEGORIES, getCategoryPath } from '@/data/products';
 import Button from '@/components/ui/Button.astro';
 import Icon from '@/components/ui/Icon.astro';
 
@@ -9,13 +10,6 @@ interface Props {
 
 const { lang } = Astro.props;
 const t = useTranslations(lang);
-
-const categories: { nameKey: UIKey; descKey: UIKey; gradient: string }[] = [
-  { nameKey: 'products.cat.bags', descKey: 'products.cat.bags.desc', gradient: 'from-brand-600 via-brand-700 to-ink-900' },
-  { nameKey: 'products.cat.complements', descKey: 'products.cat.complements.desc', gradient: 'from-ink-700 via-ink-800 to-ink-900' },
-  { nameKey: 'products.cat.clothing', descKey: 'products.cat.clothing.desc', gradient: 'from-ink-600 via-ink-800 to-brand-900' },
-  { nameKey: 'products.cat.footwear', descKey: 'products.cat.footwear.desc', gradient: 'from-brand-700 via-ink-800 to-ink-900' },
-];
 ---
 
 <section id="products" class="bg-cream-50">
@@ -31,16 +25,24 @@ const categories: { nameKey: UIKey; descKey: UIKey; gradient: string }[] = [
     </div>
 
     <div class="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-      {categories.map((cat, i) => (
-        <div data-reveal style={`animation-delay: ${i * 90}ms`}>
+      {PRODUCT_CATEGORIES.map((cat, i) => (
+        <a
+          href={getCategoryPath(lang, cat.id)}
+          data-reveal
+          style={`animation-delay: ${i * 90}ms`}
+          class="group block"
+        >
           <!--
             Marcador de posición mientras no tenemos fotografía real de cada categoría.
             Sustituir por <Image src={...} alt="…" /> en cuanto lleguen las fotos.
           -->
-          <div class={`aspect-[4/5] rounded-2xl bg-gradient-to-br ${cat.gradient} shadow-sm`}></div>
-          <h3 class="mt-4 font-display text-xl font-medium text-ink-800">{t(cat.nameKey)}</h3>
+          <div class={`aspect-[4/5] overflow-hidden rounded-2xl bg-gradient-to-br ${cat.gradient} shadow-sm transition-transform duration-500 ease-out group-hover:scale-[1.03]`}></div>
+          <h3 class="mt-4 flex items-center gap-1.5 font-display text-xl font-medium text-ink-800 group-hover:text-brand-600">
+            {t(cat.nameKey)}
+            <Icon name="chevron-right" class="h-4 w-4 shrink-0 opacity-0 transition-opacity group-hover:opacity-100" />
+          </h3>
           <p class="mt-1 text-sm text-ink-800/65">{t(cat.descKey)}</p>
-        </div>
+        </a>
       ))}
     </div>
 

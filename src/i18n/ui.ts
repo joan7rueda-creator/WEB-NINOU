@@ -74,6 +74,8 @@ export const ui = {
     'products.cat.clothing.desc': 'Peces de vestir triades amb el mateix criteri de sempre: qualitat i bon gust.',
     'products.cat.footwear': 'Calçat',
     'products.cat.footwear.desc': 'Calçat còmode i elegant per a qualsevol ocasió.',
+    'products.category.back': 'Tornar a Productes',
+    'products.category.comingSoon': 'Estem preparant aquesta categoria. Molt aviat hi trobaràs aquí les peces seleccionades.',
 
     'gallery.eyebrow': 'Un cop d’ull',
     'gallery.title': 'Galeria',
@@ -170,6 +172,8 @@ export const ui = {
     'products.cat.clothing.desc': 'Prendas elegidas con el mismo criterio de siempre: calidad y buen gusto.',
     'products.cat.footwear': 'Calzado',
     'products.cat.footwear.desc': 'Calzado cómodo y elegante para cualquier ocasión.',
+    'products.category.back': 'Volver a Productos',
+    'products.category.comingSoon': 'Estamos preparando esta categoría. Muy pronto encontrarás aquí las piezas seleccionadas.',
 
     'gallery.eyebrow': 'Un vistazo',
     'gallery.title': 'Galería',

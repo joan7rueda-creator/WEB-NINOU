@@ -1,0 +1,87 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Header from '@/components/layout/Header.astro';
+import Footer from '@/components/layout/Footer.astro';
+import FloatingActions from '@/components/ui/FloatingActions.astro';
+import Icon from '@/components/ui/Icon.astro';
+import { SITE } from '@/data/site';
+import { useTranslations, type Lang } from '@/i18n/utils';
+import {
+  PRODUCT_CATEGORIES,
+  PRODUCTS_PATH,
+  CATEGORY_SLUGS,
+  getProductsIndexPath,
+  type ProductCategoryId,
+} from '@/data/products';
+
+export function getStaticPaths() {
+  const langs: Lang[] = ['ca', 'es'];
+  return langs.flatMap((lang) =>
+    PRODUCT_CATEGORIES.map((cat) => ({
+      params: {
+        lang,
+        productsPath: PRODUCTS_PATH[lang],
+        categorySlug: CATEGORY_SLUGS[lang][cat.id],
+      },
+      props: { lang, categoryId: cat.id },
+    }))
+  );
+}
+
+const { lang, categoryId } = Astro.props as { lang: Lang; categoryId: ProductCategoryId };
+const t = useTranslations(lang);
+const category = PRODUCT_CATEGORIES.find((c) => c.id === categoryId)!;
+
+const langs: Lang[] = ['ca', 'es'];
+const alternates = Object.fromEntries(
+  langs.map((l) => [l, `${l}/${PRODUCTS_PATH[l]}/${CATEGORY_SLUGS[l][categoryId]}/`])
+);
+
+const pageTitle = `${t(category.nameKey)} — ${t('products.title')} — ${SITE.name}`;
+---
+
+<BaseLayout
+  lang={lang}
+  path={`/${PRODUCTS_PATH[lang]}/${CATEGORY_SLUGS[lang][categoryId]}/`}
+  alternates={alternates}
+  title={pageTitle}
+  description={t(category.descKey)}
+>
+  <Header lang={lang} />
+  <main id="main">
+    <section class="bg-cream-50">
+      <div class="mx-auto max-w-6xl px-5 py-20 lg:px-8">
+        <nav aria-label="Breadcrumb" class="flex items-center gap-2 text-sm text-ink-800/60">
+          <a href={getProductsIndexPath(lang)} class="inline-flex items-center gap-1 hover:text-brand-600">
+            <Icon name="chevron-right" class="h-3.5 w-3.5 rotate-180" />
+            {t('products.category.back')}
+          </a>
+        </nav>
+
+        <p class="mt-8 text-sm font-semibold uppercase tracking-[0.2em] text-brand-600">
+          {t('products.title')}
+        </p>
+        <h1 class="mt-4 font-display text-4xl font-medium text-ink-800 sm:text-5xl">
+          {t(category.nameKey)}
+        </h1>
+        <p class="mt-4 max-w-2xl text-lg text-ink-800/70">{t(category.descKey)}</p>
+
+        <!--
+          Espacio reservado para las piezas de esta categoría.
+          Cuando haya fotos y fichas de producto reales, sustituir este bloque
+          por una cuadrícula de tarjetas de producto (imagen + nombre + precio),
+          siguiendo el mismo patrón que la Galería (src/components/sections/Gallery.astro).
+        -->
+        <div
+          id="category-products"
+          class="mt-16 flex min-h-[280px] flex-col items-center justify-center gap-3 rounded-2xl border border-dashed border-ink-800/15 bg-cream-100 px-6 py-20 text-center"
+        >
+          <Icon name="tag" class="h-8 w-8 text-ink-800/30" />
+          <p class="max-w-sm text-ink-800/60">{t('products.category.comingSoon')}</p>
+        </div>
+      </div>
+    </section>
+  </main>
+  <Footer lang={lang} />
+  <FloatingActions lang={lang} />
+</BaseLayout>
