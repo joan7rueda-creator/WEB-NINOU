@@ -1,8 +1,10 @@
 ---
+import { Image } from 'astro:assets';
 import { useTranslations, type Lang } from '@/i18n/utils';
 import Button from '@/components/ui/Button.astro';
 import Icon from '@/components/ui/Icon.astro';
 import { SITE } from '@/data/site';
+import storefront from '@/assets/hero/storefront.jpg';
 
 interface Props {
   lang: Lang;
@@ -44,17 +46,16 @@ const t = useTranslations(lang);
     </div>
 
     <div data-reveal style="animation-delay: 120ms" class="relative">
-      <!--
-        Placeholder visual mientras no tenemos fotografía real de la tienda/producto.
-        Sustituir por <Image src={import('@/assets/hero.jpg')} alt="…" /> en cuanto
-        recibamos las fotos (ver optimización automática de astro:assets).
-      -->
-      <div class="aspect-[4/5] w-full rounded-[2rem] border border-cream-50/10 bg-gradient-to-br from-brand-600 via-brand-700 to-ink-900 shadow-2xl shadow-ink-900/40">
-        <div class="flex h-full flex-col items-center justify-center gap-4 text-center">
-          <span class="font-display text-3xl font-medium text-cream-50">Ninou</span>
-          <span class="text-xs uppercase tracking-[0.3em] text-cream-50/70">Marroquineria</span>
-        </div>
-      </div>
+      <Image
+        src={storefront}
+        alt={t('hero.imageAlt')}
+        width={920}
+        height={1150}
+        class="aspect-[4/5] w-full rounded-[2rem] border border-cream-50/10 object-cover shadow-2xl shadow-ink-900/40"
+        widths={[460, 690, 920]}
+        sizes="(min-width: 1024px) 40vw, 90vw"
+        loading="eager"
+      />
     </div>
   </div>
 </section>
