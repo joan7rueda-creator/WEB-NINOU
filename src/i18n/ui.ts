@@ -44,7 +44,6 @@ export const ui = {
     'hero.subtitle': "L'elegància que et fa brillar",
     'hero.cta.primary': 'Visita’ns',
     'hero.cta.secondary': 'Truca’ns ara',
-    'hero.imageAlt': 'Façana de la botiga Ninou Marroquineria a Sant Celoni',
 
     'about.eyebrow': 'La nostra història',
     'about.title': '130 anys cuidant de tu',
@@ -141,7 +140,6 @@ export const ui = {
     'hero.subtitle': 'La elegancia que te hace brillar',
     'hero.cta.primary': 'Visítanos',
     'hero.cta.secondary': 'Llámanos ahora',
-    'hero.imageAlt': 'Fachada de la tienda Ninou Marroquinería en Sant Celoni',
 
     'about.eyebrow': 'Nuestra historia',
     'about.title': '130 años cuidando de ti',
