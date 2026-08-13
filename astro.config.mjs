@@ -3,10 +3,9 @@ import tailwindcss from '@tailwindcss/vite';
 import sitemap from '@astrojs/sitemap';
 
 // Dominio y subruta configurables por variable de entorno: permiten reutilizar el
-// mismo código tanto para la vista previa en GitHub Pages (subruta /web-ninou/)
-// como para el dominio definitivo (raíz "/") sin tocar nada más el día del cambio.
-// TODO: actualizar SITE_URL cuando se decida el dominio definitivo.
-const SITE_URL = process.env.SITE_URL ?? 'https://www.ninoumarroquineria.com';
+// mismo código tanto para una vista previa bajo subruta (p.ej. GitHub Pages sin
+// dominio propio) como para el dominio definitivo (raíz "/") sin tocar nada más.
+const SITE_URL = process.env.SITE_URL ?? 'https://ninoumarroquineria.com';
 const BASE_PATH = process.env.BASE_PATH ?? '/';
 
 export default defineConfig({

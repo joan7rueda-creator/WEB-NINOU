@@ -1,4 +1,4 @@
-name: Vista previa en GitHub Pages
+name: Desplegar web en GitHub Pages
 
 on:
   push:
@@ -27,11 +27,8 @@ jobs:
 
       - run: npm ci
 
-      - name: Build (bajo la subruta /${{ github.event.repository.name }}/)
+      - name: Build (dominio propio, raíz "/")
         run: npm run build
-        env:
-          SITE_URL: https://${{ github.repository_owner }}.github.io
-          BASE_PATH: /${{ github.event.repository.name }}/
 
       - uses: actions/configure-pages@v5
 

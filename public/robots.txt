@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://www.ninoumarroquineria.com/sitemap-index.xml
+Sitemap: https://ninoumarroquineria.com/sitemap-index.xml
