@@ -1,8 +1,10 @@
 ---
+import { Image } from 'astro:assets';
 import { useTranslations, type Lang } from '@/i18n/utils';
 import Button from '@/components/ui/Button.astro';
 import Icon from '@/components/ui/Icon.astro';
 import { SITE } from '@/data/site';
+import storefront from '@/assets/hero/storefront.jpg';
 
 interface Props {
   lang: Lang;
@@ -13,6 +15,15 @@ const t = useTranslations(lang);
 ---
 
 <section class="relative overflow-hidden bg-ink-800 text-cream-50">
+  <Image
+    src={storefront}
+    alt=""
+    width={1600}
+    height={1000}
+    class="pointer-events-none absolute inset-0 h-full w-full scale-110 object-cover blur-[6px]"
+    loading="eager"
+  />
+  <div class="pointer-events-none absolute inset-0 bg-ink-900/70"></div>
   <div
     class="pointer-events-none absolute inset-0 opacity-40"
     style="background:radial-gradient(circle at 20% 20%, theme(colors.brand.700) 0%, transparent 45%), radial-gradient(circle at 85% 75%, theme(colors.brand.900) 0%, transparent 50%);"
