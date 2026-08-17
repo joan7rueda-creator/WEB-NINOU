@@ -1,0 +1,88 @@
+---
+import { useTranslations, type Lang } from '@/i18n/utils';
+import { BRANDS } from '@/data/brands';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+
+// Pista duplicada: con dos copias idénticas, un translateX(-50%) completa
+// exactamente un ciclo sin corte visible (ver @keyframes marquee).
+const track = [...BRANDS, ...BRANDS];
+---
+
+<section class="overflow-hidden bg-cream-100">
+  <div class="mx-auto max-w-6xl px-5 pt-24 lg:px-8">
+    <div data-reveal class="max-w-2xl">
+      <p class="text-sm font-semibold uppercase tracking-[0.2em] text-brand-600">
+        {t('brands.eyebrow')}
+      </p>
+      <h2 class="mt-4 font-display text-4xl font-medium uppercase tracking-wide text-ink-800 sm:text-5xl">
+        {t('brands.title')}
+      </h2>
+      <p class="mt-4 text-lg text-ink-800/70">{t('brands.subtitle')}</p>
+    </div>
+  </div>
+
+  <div data-reveal style="animation-delay: 160ms" class="relative mt-12 pb-24">
+    <div
+      data-marquee
+      class="relative overflow-x-auto [-ms-overflow-style:none] [scrollbar-width:none] [touch-action:pan-x] [&::-webkit-scrollbar]:hidden"
+    >
+      <div data-marquee-track class="flex w-max items-center gap-12 py-2 sm:gap-16 lg:gap-20">
+        {track.map((brand, i) => (
+          <div
+            aria-hidden={i >= BRANDS.length ? 'true' : undefined}
+            class="group flex h-10 shrink-0 items-center justify-center px-1 transition-transform duration-200 ease-out hover:scale-105 sm:h-12"
+          >
+            <!--
+              Marcador de posición mientras no tenemos los logotipos oficiales de esta marca.
+              Sustituir este <span> por <Image src={logo} alt={brand.name} class="h-full w-auto object-contain" />
+              en cuanto lleguen los archivos, manteniendo el contenedor de altura uniforme.
+            -->
+            <span class="whitespace-nowrap font-display text-lg font-medium tracking-wide text-ink-800/45 transition-colors duration-200 ease-out group-hover:text-ink-800/90">
+              {brand.name}
+            </span>
+          </div>
+        ))}
+      </div>
+    </div>
+
+    <div class="pointer-events-none absolute inset-y-0 left-0 w-16 bg-gradient-to-r from-cream-100 to-transparent sm:w-28"></div>
+    <div class="pointer-events-none absolute inset-y-0 right-0 w-16 bg-gradient-to-l from-cream-100 to-transparent sm:w-28"></div>
+  </div>
+</section>
+
+<script>
+  // Pausa el carrusel automático mientras el usuario lo toca/arrastra en móvil,
+  // y lo reanuda pasado un instante. En escritorio la pausa al pasar el cursor
+  // es puramente CSS (ver [data-marquee]:hover en global.css).
+  function initBrandsMarquee() {
+    const wrapper = document.querySelector<HTMLElement>('[data-marquee]');
+    const track = wrapper?.querySelector<HTMLElement>('[data-marquee-track]');
+    if (!wrapper || !track || wrapper.dataset.bound) return;
+    wrapper.dataset.bound = 'true';
+
+    let resumeTimer: ReturnType<typeof setTimeout>;
+
+    function pause() {
+      track!.classList.add('is-paused');
+      clearTimeout(resumeTimer);
+    }
+
+    function scheduleResume() {
+      clearTimeout(resumeTimer);
+      resumeTimer = setTimeout(() => track!.classList.remove('is-paused'), 1200);
+    }
+
+    wrapper.addEventListener('pointerdown', pause, { passive: true });
+    wrapper.addEventListener('pointerup', scheduleResume, { passive: true });
+    wrapper.addEventListener('pointercancel', scheduleResume, { passive: true });
+    wrapper.addEventListener('touchend', scheduleResume, { passive: true });
+  }
+
+  document.addEventListener('astro:page-load', initBrandsMarquee);
+</script>

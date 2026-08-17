@@ -77,6 +77,11 @@ export const ui = {
     'products.category.back': 'Tornar a Productes',
     'products.category.comingSoon': 'Estem preparant aquesta categoria. Molt aviat hi trobaràs aquí les peces seleccionades.',
 
+    'brands.eyebrow': 'Marques',
+    'brands.title': 'Marques amb les que treballem',
+    'brands.subtitle':
+      'Treballem amb marques seleccionades per oferir-te una acurada varietat de productes i estils.',
+
     'gallery.eyebrow': 'Un cop d’ull',
     'gallery.title': 'Galeria',
     'gallery.alt.1': 'Bossa daurada perforada, model exhibit a la botiga Ninou',
@@ -182,6 +187,11 @@ export const ui = {
     'products.cat.footwear.desc': 'Calzado cómodo y elegante para cualquier ocasión.',
     'products.category.back': 'Volver a Productos',
     'products.category.comingSoon': 'Estamos preparando esta categoría. Muy pronto encontrarás aquí las piezas seleccionadas.',
+
+    'brands.eyebrow': 'Marcas',
+    'brands.title': 'Marcas con las que trabajamos',
+    'brands.subtitle':
+      'Trabajamos con marcas seleccionadas para ofrecerte una cuidada variedad de productos y estilos.',
 
     'gallery.eyebrow': 'Un vistazo',
     'gallery.title': 'Galería',
