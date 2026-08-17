@@ -15,7 +15,7 @@ const t = useTranslations(lang);
   <a
     href={`tel:${SITE.contact.phone}`}
     aria-label={t('cta.call')}
-    class="flex h-14 w-14 items-center justify-center rounded-full bg-ink-800 text-cream-50 shadow-lg shadow-ink-900/25 transition-transform hover:-translate-y-0.5 hover:bg-ink-700"
+    class="flex h-14 w-14 items-center justify-center rounded-full bg-ink-800 text-cream-50 shadow-lg shadow-ink-900/25 transition duration-200 ease-out hover:-translate-y-0.5 hover:bg-ink-700 hover:shadow-xl active:scale-95 active:duration-100"
   >
     <Icon name="phone" class="h-6 w-6" />
   </a>
@@ -24,7 +24,7 @@ const t = useTranslations(lang);
     target="_blank"
     rel="noopener noreferrer"
     aria-label={t('cta.whatsapp')}
-    class="flex h-14 w-14 items-center justify-center rounded-full bg-[#25D366] text-white shadow-lg shadow-ink-900/25 transition-transform hover:-translate-y-0.5 hover:brightness-105"
+    class="flex h-14 w-14 items-center justify-center rounded-full bg-[#25D366] text-white shadow-lg shadow-ink-900/25 transition duration-200 ease-out hover:-translate-y-0.5 hover:brightness-105 hover:shadow-xl active:scale-95 active:duration-100"
   >
     <Icon name="whatsapp" class="h-7 w-7" />
   </a>

@@ -39,7 +39,7 @@ const t = useTranslations(lang);
           </span>
           <div>
             <p class="text-sm text-cream-100/60">{t('storeInfo.phone')}</p>
-            <a href={`tel:${SITE.contact.phone}`} class="text-lg hover:text-brand-400">{SITE.contact.phoneDisplay}</a>
+            <a href={`tel:${SITE.contact.phone}`} class="text-lg transition-colors duration-200 hover:text-brand-400">{SITE.contact.phoneDisplay}</a>
           </div>
         </li>
         <li class="flex items-start gap-4">
@@ -48,7 +48,7 @@ const t = useTranslations(lang);
           </span>
           <div>
             <p class="text-sm text-cream-100/60">{t('storeInfo.email')}</p>
-            <a href={`mailto:${SITE.contact.email}`} class="text-lg hover:text-brand-400 break-all">{SITE.contact.email}</a>
+            <a href={`mailto:${SITE.contact.email}`} class="text-lg break-all transition-colors duration-200 hover:text-brand-400">{SITE.contact.email}</a>
           </div>
         </li>
         <li class="flex items-start gap-4">
@@ -57,7 +57,7 @@ const t = useTranslations(lang);
           </span>
           <div>
             <p class="text-sm text-cream-100/60">{t('storeInfo.social')}</p>
-            <a href={SITE.social.instagram} target="_blank" rel="noopener noreferrer me" class="text-lg hover:text-brand-400">
+            <a href={SITE.social.instagram} target="_blank" rel="noopener noreferrer me" class="text-lg transition-colors duration-200 hover:text-brand-400">
               {SITE.social.instagramHandle}
             </a>
           </div>
@@ -106,7 +106,7 @@ const t = useTranslations(lang);
   </div>
   <Button href={SITE.maps.directionsUrl} target="_blank" rel="noopener noreferrer" variant="primary" class="mt-6">
     {t('location.cta')}
-    <Icon name="chevron-right" class="h-4 w-4" />
+    <Icon name="chevron-right" class="h-4 w-4 transition-transform duration-200 group-hover:translate-x-1" />
   </Button>
   </div>
 </section>
@@ -114,39 +114,43 @@ const t = useTranslations(lang);
 <script>
   // Resalta el día actual y muestra si la botiga está abierta ahora mismo.
   // Mejora progresiva: sin JS, la tabla de horario semanal sigue siendo perfectamente legible.
-  const DAY_KEYS = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
+  function initHoursHighlight() {
+    const DAY_KEYS = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
 
-  function toMinutes(hhmm: string): number {
-    const [h, m] = hhmm.split(':').map(Number);
-    return h * 60 + m;
-  }
+    function toMinutes(hhmm: string): number {
+      const [h, m] = hhmm.split(':').map(Number);
+      return h * 60 + m;
+    }
 
-  const list = document.getElementById('hours-list');
-  if (list) {
+    const list = document.getElementById('hours-list');
+    if (!list) return;
+
     const todayKey = DAY_KEYS[new Date().getDay()];
     const todayRow = list.querySelector<HTMLLIElement>(`[data-day="${todayKey}"]`);
+    if (!todayRow || todayRow.querySelector('[data-open-badge]')) return;
 
-    if (todayRow) {
-      todayRow.classList.add('bg-brand-500/10');
+    todayRow.classList.add('bg-brand-500/10');
 
-      const rangesText = todayRow.querySelector('span:last-child')?.textContent ?? '';
-      const nowMinutes = new Date().getHours() * 60 + new Date().getMinutes();
-      const isOpen = rangesText
-        .split('·')
-        .map((r) => r.trim())
-        .filter(Boolean)
-        .some((range) => {
-          const [start, end] = range.split('–').map((s) => s.trim());
-          if (!start || !end) return false;
-          return nowMinutes >= toMinutes(start) && nowMinutes <= toMinutes(end);
-        });
+    const rangesText = todayRow.querySelector('span:last-child')?.textContent ?? '';
+    const nowMinutes = new Date().getHours() * 60 + new Date().getMinutes();
+    const isOpen = rangesText
+      .split('·')
+      .map((r) => r.trim())
+      .filter(Boolean)
+      .some((range) => {
+        const [start, end] = range.split('–').map((s) => s.trim());
+        if (!start || !end) return false;
+        return nowMinutes >= toMinutes(start) && nowMinutes <= toMinutes(end);
+      });
 
-      const badge = document.createElement('span');
-      badge.className = isOpen
-        ? 'ml-3 shrink-0 rounded-full bg-emerald-500/20 px-2.5 py-1 text-xs font-semibold text-emerald-400'
-        : 'ml-3 shrink-0 rounded-full bg-cream-50/10 px-2.5 py-1 text-xs font-semibold text-cream-100/60';
-      badge.textContent = isOpen ? list.dataset.openLabel ?? '' : list.dataset.closedLabel ?? '';
-      todayRow.querySelector('span:first-child')?.appendChild(badge);
-    }
+    const badge = document.createElement('span');
+    badge.dataset.openBadge = '';
+    badge.className = isOpen
+      ? 'ml-3 shrink-0 rounded-full bg-emerald-500/20 px-2.5 py-1 text-xs font-semibold text-emerald-400'
+      : 'ml-3 shrink-0 rounded-full bg-cream-50/10 px-2.5 py-1 text-xs font-semibold text-cream-100/60';
+    badge.textContent = isOpen ? list.dataset.openLabel ?? '' : list.dataset.closedLabel ?? '';
+    todayRow.querySelector('span:first-child')?.appendChild(badge);
   }
+
+  document.addEventListener('astro:page-load', initHoursHighlight);
 </script>

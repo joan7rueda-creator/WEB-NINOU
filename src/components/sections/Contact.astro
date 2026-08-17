@@ -12,7 +12,7 @@ const { lang } = Astro.props;
 const t = useTranslations(lang);
 
 const inputClasses =
-  'w-full rounded-xl border border-ink-800/15 bg-cream-50 px-4 py-3 text-ink-800 placeholder:text-ink-800/40 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/30';
+  'w-full rounded-xl border border-ink-800/15 bg-cream-50 px-4 py-3 text-ink-800 placeholder:text-ink-800/40 transition-colors duration-200 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/30';
 ---
 
 <section id="contact" class="bg-cream-50">
@@ -27,11 +27,11 @@ const inputClasses =
       <p class="mt-4 max-w-md text-lg text-ink-800/70">{t('contact.subtitle')}</p>
 
       <div class="mt-9 flex flex-col gap-4">
-        <a href={`tel:${SITE.contact.phone}`} class="inline-flex items-center gap-3 text-ink-800 hover:text-brand-600">
+        <a href={`tel:${SITE.contact.phone}`} class="inline-flex items-center gap-3 text-ink-800 transition-colors duration-200 hover:text-brand-600">
           <Icon name="phone" class="h-5 w-5 text-brand-600" />
           {SITE.contact.phoneDisplay}
         </a>
-        <a href={`mailto:${SITE.contact.email}`} class="inline-flex items-center gap-3 text-ink-800 hover:text-brand-600">
+        <a href={`mailto:${SITE.contact.email}`} class="inline-flex items-center gap-3 text-ink-800 transition-colors duration-200 hover:text-brand-600">
           <Icon name="mail" class="h-5 w-5 text-brand-600" />
           {SITE.contact.email}
         </a>
@@ -90,42 +90,49 @@ const inputClasses =
 </section>
 
 <script>
-  const form = document.getElementById('contact-form') as HTMLFormElement | null;
-  const status = document.getElementById('contact-form-status');
-  const submitLabel = form?.querySelector<HTMLSpanElement>('[data-label]');
+  function initContactForm() {
+    const form = document.getElementById('contact-form') as HTMLFormElement | null;
+    if (!form || form.dataset.bound) return;
+    form.dataset.bound = 'true';
 
-  form?.addEventListener('submit', async (event) => {
-    event.preventDefault();
-    if (!status || !submitLabel) return;
+    const status = document.getElementById('contact-form-status');
+    const submitLabel = form.querySelector<HTMLSpanElement>('[data-label]');
 
-    const submitButton = form.querySelector<HTMLButtonElement>('button[type="submit"]');
-    submitButton?.setAttribute('disabled', 'true');
-    submitLabel.textContent = submitLabel.dataset.sending ?? '';
+    form.addEventListener('submit', async (event) => {
+      event.preventDefault();
+      if (!status || !submitLabel) return;
 
-    try {
-      const response = await fetch(form.action, {
-        method: 'POST',
-        body: new FormData(form),
-        headers: { Accept: 'application/json' },
-      });
-      const result = await response.json();
+      const submitButton = form.querySelector<HTMLButtonElement>('button[type="submit"]');
+      submitButton?.setAttribute('disabled', 'true');
+      submitLabel.textContent = submitLabel.dataset.sending ?? '';
 
-      status.classList.remove('hidden', 'text-red-600', 'text-emerald-700');
-      if (result.success) {
-        status.textContent = status.dataset.success ?? '';
-        status.classList.add('text-emerald-700');
-        form.reset();
-      } else {
+      try {
+        const response = await fetch(form.action, {
+          method: 'POST',
+          body: new FormData(form),
+          headers: { Accept: 'application/json' },
+        });
+        const result = await response.json();
+
+        status.classList.remove('hidden', 'text-red-600', 'text-emerald-700');
+        if (result.success) {
+          status.textContent = status.dataset.success ?? '';
+          status.classList.add('text-emerald-700');
+          form.reset();
+        } else {
+          status.textContent = status.dataset.error ?? '';
+          status.classList.add('text-red-600');
+        }
+      } catch {
+        status.classList.remove('hidden');
         status.textContent = status.dataset.error ?? '';
         status.classList.add('text-red-600');
+      } finally {
+        submitLabel.textContent = submitLabel.dataset.label ?? '';
+        submitButton?.removeAttribute('disabled');
       }
-    } catch {
-      status.classList.remove('hidden');
-      status.textContent = status.dataset.error ?? '';
-      status.classList.add('text-red-600');
-    } finally {
-      submitLabel.textContent = submitLabel.dataset.label ?? '';
-      submitButton?.removeAttribute('disabled');
-    }
-  });
+    });
+  }
+
+  document.addEventListener('astro:page-load', initContactForm);
 </script>

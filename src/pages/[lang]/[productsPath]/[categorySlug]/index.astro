@@ -52,8 +52,8 @@ const pageTitle = `${t(category.nameKey)} — ${t('products.title')} — ${SITE.
     <section class="bg-cream-50">
       <div class="mx-auto max-w-6xl px-5 py-20 lg:px-8">
         <nav aria-label="Breadcrumb" class="flex items-center gap-2 text-sm text-ink-800/60">
-          <a href={getProductsIndexPath(lang)} class="inline-flex items-center gap-1 hover:text-brand-600">
-            <Icon name="chevron-right" class="h-3.5 w-3.5 rotate-180" />
+          <a href={getProductsIndexPath(lang)} class="group inline-flex items-center gap-1 transition-colors duration-200 hover:text-brand-600">
+            <Icon name="chevron-right" class="h-3.5 w-3.5 rotate-180 transition-transform duration-200 group-hover:-translate-x-1" />
             {t('products.category.back')}
           </a>
         </nav>

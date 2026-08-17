@@ -1,5 +1,6 @@
 ---
 import '@/styles/global.css';
+import { ClientRouter } from 'astro:transitions';
 import { SITE } from '@/data/site';
 import { languages, useTranslations, withBase, type Lang } from '@/i18n/utils';
 
@@ -102,6 +103,8 @@ const jsonLd = {
     <meta name="twitter:card" content="summary_large_image" />
 
     <meta name="theme-color" content="#1e2749" />
+
+    <ClientRouter />
 
     <script is:inline>
       document.documentElement.classList.add('js');

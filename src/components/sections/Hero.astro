@@ -20,32 +20,37 @@ const t = useTranslations(lang);
     alt=""
     width={1600}
     height={1000}
-    class="pointer-events-none absolute inset-0 h-full w-full scale-110 object-cover blur-[6px]"
+    data-hero-parallax
+    class="animate-fade-in-slow pointer-events-none absolute inset-0 h-full w-full scale-110 object-cover blur-[6px]"
     loading="eager"
   />
   <div class="pointer-events-none absolute inset-0 bg-ink-900/70"></div>
   <div
-    class="pointer-events-none absolute inset-0 opacity-40"
+    class="animate-drift pointer-events-none absolute inset-0 opacity-40"
     style="background:radial-gradient(circle at 20% 20%, theme(colors.brand.700) 0%, transparent 45%), radial-gradient(circle at 85% 75%, theme(colors.brand.900) 0%, transparent 50%);"
   >
   </div>
 
   <div class="relative mx-auto grid max-w-6xl items-center gap-12 px-5 py-24 sm:py-28 lg:grid-cols-2 lg:px-8 lg:py-32">
-    <div data-reveal>
-      <p class="text-sm font-semibold uppercase tracking-[0.2em] text-brand-400">
+    <div>
+      <p data-reveal class="text-sm font-semibold uppercase tracking-[0.2em] text-brand-400">
         {t('hero.eyebrow')}
       </p>
-      <h1 class="mt-5 font-display text-5xl font-medium leading-[1.05] tracking-tight sm:text-6xl">
+      <h1
+        data-reveal="lg"
+        style="animation-delay: 80ms"
+        class="mt-5 font-display text-5xl font-medium leading-[1.05] tracking-tight sm:text-6xl"
+      >
         {t('hero.title')}
       </h1>
-      <p class="mt-6 max-w-md text-lg text-cream-100/80">
+      <p data-reveal style="animation-delay: 200ms" class="mt-6 max-w-md text-lg text-cream-100/80">
         {t('hero.subtitle')}
       </p>
 
-      <div class="mt-9 flex flex-wrap gap-4">
+      <div data-reveal style="animation-delay: 320ms" class="mt-9 flex flex-wrap gap-4">
         <Button href="#store-info" variant="primary">
           {t('hero.cta.primary')}
-          <Icon name="chevron-right" class="h-4 w-4" />
+          <Icon name="chevron-right" class="h-4 w-4 transition-transform duration-200 group-hover:translate-x-1" />
         </Button>
         <Button href={`tel:${SITE.contact.phone}`} variant="ghost" class="!border-cream-50/25 !text-cream-50 hover:!border-cream-50/50 hover:!bg-cream-50/10">
           <Icon name="phone" class="h-4 w-4" />
@@ -54,7 +59,7 @@ const t = useTranslations(lang);
       </div>
     </div>
 
-    <div data-reveal style="animation-delay: 120ms" class="relative">
+    <div data-reveal="lg" style="animation-delay: 160ms" class="relative">
       <!--
         Placeholder visual mientras no tenemos fotografía real de la tienda/producto.
         Sustituir por <Image src={import('@/assets/hero.jpg')} alt="…" /> en cuanto
@@ -69,3 +74,44 @@ const t = useTranslations(lang);
     </div>
   </div>
 </section>
+
+<script>
+  // Parallax muy sutil del fondo del Hero (solo transform, sin reflow). Se desactiva
+  // por completo si el usuario prefiere menos movimiento, y se reinicia en cada
+  // transición de página para no acumular listeners (ver <ClientRouter /> en BaseLayout).
+  let controller: AbortController | undefined;
+
+  function initHeroParallax() {
+    controller?.abort();
+
+    const img = document.querySelector<HTMLElement>('[data-hero-parallax]');
+    const section = img?.closest('section');
+    if (!img || !section) return;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+    controller = new AbortController();
+    let ticking = false;
+
+    function update() {
+      ticking = false;
+      if (!img || !section) return;
+      const rect = section.getBoundingClientRect();
+      const total = rect.height + window.innerHeight;
+      const progress = Math.min(Math.max(1 - rect.bottom / total, 0), 1);
+      const offset = progress * 24; // máximo ~24px de recorrido, muy sutil
+      img.style.transform = `scale(1.1) translateY(${offset}px)`;
+    }
+
+    function onScroll() {
+      if (!ticking) {
+        ticking = true;
+        requestAnimationFrame(update);
+      }
+    }
+
+    window.addEventListener('scroll', onScroll, { passive: true, signal: controller.signal });
+    update();
+  }
+
+  document.addEventListener('astro:page-load', initHeroParallax);
+</script>

@@ -34,7 +34,7 @@ const links: { href: string; label: string }[] = [
       {links.map((link) => (
         <a
           href={link.href}
-          class="text-sm font-medium text-ink-800/80 transition-colors hover:text-brand-600"
+          class="relative py-1 text-sm font-medium text-ink-800/80 transition-colors duration-200 after:absolute after:-bottom-0.5 after:left-0 after:h-px after:w-full after:origin-left after:scale-x-0 after:bg-brand-600 after:transition-transform after:duration-300 after:ease-out hover:text-brand-600 hover:after:scale-x-100"
         >
           {link.label}
         </a>
@@ -56,14 +56,14 @@ const links: { href: string; label: string }[] = [
 
       <nav
         aria-label="Principal"
-        class="absolute right-0 top-full mt-3 w-64 rounded-2xl border border-ink-800/10 bg-cream-50 p-5 shadow-xl shadow-ink-900/10"
+        class="mobile-menu-panel absolute right-0 top-full mt-3 w-64 rounded-2xl border border-ink-800/10 bg-cream-50 p-5 shadow-xl shadow-ink-900/10"
       >
         <ul class="flex flex-col gap-1">
           {links.map((link) => (
             <li>
               <a
                 href={link.href}
-                class="block rounded-lg px-3 py-2.5 text-sm font-medium text-ink-800 hover:bg-brand-50"
+                class="block rounded-lg px-3 py-2.5 text-sm font-medium text-ink-800 transition-colors duration-200 hover:bg-brand-50"
               >
                 {link.label}
               </a>
@@ -77,3 +77,26 @@ const links: { href: string; label: string }[] = [
     </details>
   </div>
 </header>
+
+<style>
+  /* Apertura suave del menú móvil (mejora progresiva: sin soporte, aparece igualmente al instante). */
+  .mobile-menu-panel {
+    transition:
+      opacity 220ms var(--ease-premium, ease-out),
+      transform 220ms var(--ease-premium, ease-out);
+    transition-behavior: allow-discrete;
+  }
+
+  @starting-style {
+    details[open] > .mobile-menu-panel {
+      opacity: 0;
+      transform: translateY(-8px) scale(0.97);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .mobile-menu-panel {
+      transition: none;
+    }
+  }
+</style>
