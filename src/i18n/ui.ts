@@ -100,6 +100,14 @@ export const ui = {
 
     'location.cta': 'Com arribar-hi',
 
+    'instagram.eyebrow': 'Instagram',
+    'instagram.title': 'Directes a Instagram',
+    'instagram.subtitle':
+      'Descobreix les nostres novetats abans que ningú. Cada temporada presentem els nous productes en directe, ensenyant cada detall i resolent els vostres dubtes.',
+    'instagram.cta': 'Veure Instagram',
+    'instagram.live': 'En directe',
+    'instagram.imageAlt': 'Detall d’una bossa mostrada a la botiga Ninou',
+
     'contact.eyebrow': 'Contacte',
     'contact.title': 'Escriu-nos',
     'contact.subtitle':
@@ -197,6 +205,14 @@ export const ui = {
     'hours.closedNow': 'Cerrado ahora',
 
     'location.cta': 'Cómo llegar',
+
+    'instagram.eyebrow': 'Instagram',
+    'instagram.title': 'Directos en Instagram',
+    'instagram.subtitle':
+      'Descubre nuestras novedades antes que nadie. Cada temporada presentamos nuestros nuevos productos en directo, enseñando cada detalle y resolviendo vuestras dudas.',
+    'instagram.cta': 'Ver Instagram',
+    'instagram.live': 'En directo',
+    'instagram.imageAlt': 'Detalle de un bolso mostrado en la tienda Ninou',
 
     'contact.eyebrow': 'Contacto',
     'contact.title': 'Escríbenos',
